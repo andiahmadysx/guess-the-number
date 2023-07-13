@@ -1,51 +1,66 @@
 const answerRef = document.getElementById("answer-input");
 const guessButton = document.getElementById("guess-btn");
-const numberOfGuessRef = document.querySelector(".number-of-guess");
-const guessesNumber = document.querySelector(".guesses-number");
 const erorrRef = document.querySelector(".error");
 const resultRef = document.querySelector(".result");
-const resultNumberRef = document.querySelector(".result-number");
-const numberTries = document.querySelector(".number-tries");
 const gameWrapper = document.querySelector(".game-wrapper");
+const resultWrapper = document.querySelector(".result-wrapper");
 const restartButton = document.getElementById("restart");
+const detail = document.querySelector('.detail');
 
+// define random number and user input history variable
 let randomNumber = 10;
-let tries = [];
+let history = [];
 
-function checkNumber() {
-  //
+function init() {
+  // check input user valid or not
   if (answerRef.value == "" || answerRef.value < 0 || answerRef.value > 100) {
     alert("Invalid input");
     return;
   }
 
-  tries.push(answerRef.value);
+  // add user input history
+  history.push(answerRef.value);
   animate(erorrRef);
 
-  //
-  if (answerRef.value < randomNumber) {
+  // check user num and random num
+  checkNumber(answerRef.value, randomNumber)
+
+  // render history elem
+  detail.innerHTML = `
+  <p>No. Of Guesses: ${history.length}</p>
+  <p>Guessed Numbers are: ${history.join(', ')}</p>
+  `
+}
+
+// check number
+function checkNumber(num, rNum){
+  if (num < rNum) {
     erorrRef.textContent = "Too low. Try again!";
-  } else if (answerRef.value > randomNumber) {
+  } else if (num > rNum) {
     erorrRef.textContent = "Too high. Try again!";
   } else {
     win();
   }
-
-  //
-  guessesNumber.textContent = tries.join(", ");
-  numberOfGuessRef.textContent = tries.length;
 }
 
+// handle win
 function win() {
+  // 
   gameWrapper.classList.add("hide");
-  resultRef.classList.remove("hide");
-  animate(resultRef);
+  resultWrapper.classList.remove("hide");
+  
+  // 
+  animate(resultWrapper);
 
   //
-  numberTries.textContent = tries.length;
-  resultNumberRef.textContent = randomNumber;
+  resultRef.innerHTML = `
+  <p>Congratulations!</p>
+  <p>The number was ${randomNumber}</p>
+  <p>You guessed the number in ${history.length} tries</p>
+  `
 }
 
+// animate 
 function animate(elem) {
   elem.classList.add("animate");
   elem.classList.remove("hide");
@@ -54,20 +69,22 @@ function animate(elem) {
   }, 300);
 }
 
+// restart game
 function restart() {
   randomNumber = generateRandomNum();
-  tries = [];
+  history = [];
   gameWrapper.classList.remove("hide");
-  resultRef.classList.add("hide");
+  resultWrapper.classList.add("hide");
   erorrRef.classList.add("hide");
   answerRef.value = "";
-  guessesNumber.textContent = "";
-  numberOfGuessRef.textContent = "";
+  resultRef.innerHTML = '';
+  detail.innerHTML = '';
+ 
 }
-
+// generate random number
 function generateRandomNum() {
   return Math.floor(Math.random() * 100) + 1;
 }
 
 restartButton.addEventListener("click", restart);
-guessButton.addEventListener("click", checkNumber);
+guessButton.addEventListener("click", init);
