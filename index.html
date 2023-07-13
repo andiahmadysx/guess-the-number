@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guess the Number</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <div class="game-wrapper">
+          <div class="title">
+            <p>
+              I am thingking a number between 1-100. <br />
+              Can you guess it?
+            </p>
+          </div>
+          <!--  -->
+          <div class="content">
+            <input type="number" name="answer-input" id="answer-input" />
+            <button id="guess-btn">Guess</button>
+          </div>
+          <!--  -->
+          <div class="detail">
+            <p>No. Of Guesses: <span class="number-of-guess"></span></p>
+            <p>
+              Guessed Numbers are: <span class="guesses-number"></span>
+            </p>
+          </div>
+
+          <!--  -->
+          <div>
+            <p class="error hide">Too Low. Try Again</p>
+          </div>
+        </div>
+
+        <!--  -->
+        <div class="result hide">
+          <div class="result-wrapper">
+            <p>Congratulations!</p>
+            <p>The number was <span class="result-number"></span></p>
+            <p>
+              You guessed the number in <span class="number-tries"></span> tries
+            </p>
+          </div>
+
+          <button id="restart">Restart</button>
+        </div>
+      </div>
+    </div>
+    <!-- javascript -->
+    <script src="./app.js"></script>
+  </body>
+</html>
